@@ -492,6 +492,32 @@ body {
   cursor: pointer; padding: 10px; margin-top: 8px;
 }
 
+/* MFA METHOD CHOICE */
+.mfa-options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.mfa-option {
+  display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
+  padding: 16px; background: var(--surface); border: 2px solid var(--ink-6);
+  border-radius: var(--r-md); cursor: pointer; font-family: inherit;
+  transition: border-color 0.15s, background 0.15s;
+}
+.mfa-option.selected { border-color: var(--green); background: var(--green-50); }
+.mfa-option-icon {
+  width: 40px; height: 40px; border-radius: var(--r-md); flex-shrink: 0;
+  background: var(--green-light); color: var(--green-dark);
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.mfa-option-body { flex: 1; min-width: 0; }
+.mfa-option-label { font-size: 12px; font-weight: 600; color: var(--ink-3); margin-bottom: 2px; }
+.mfa-option-value { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: 0.2px; word-break: break-all; }
+.mfa-option-radio {
+  width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--ink-5);
+  flex-shrink: 0; position: relative;
+}
+.mfa-option.selected .mfa-option-radio { border-color: var(--green); }
+.mfa-option.selected .mfa-option-radio::after {
+  content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--green);
+}
+
 /* OTP */
 .otp-wrap {
   flex: 1; padding: 24px 24px 32px;
@@ -1402,10 +1428,14 @@ body {
     <!-- Auth card -->
     <div class="landing-auth-card">
       <div class="landing-auth-heading">Sign in to your bill</div>
-      <div class="landing-auth-sub">Enter the phone number or email on file. We'll send a one-time code.</div>
+      <div class="landing-auth-sub">Enter your account number (MRN) and the phone number on file. Both must match your record.</div>
       <div class="landing-input-wrap">
-        <i class="landing-input-icon fa-solid fa-user"></i>
-        <input class="landing-input" type="text" placeholder="Phone or email" id="auth-input">
+        <i class="landing-input-icon fa-solid fa-hashtag"></i>
+        <input class="landing-input" type="text" placeholder="Account number (MRN)" id="auth-mrn" inputmode="numeric" autocomplete="off">
+      </div>
+      <div class="landing-input-wrap">
+        <i class="landing-input-icon fa-solid fa-phone"></i>
+        <input class="landing-input" type="tel" placeholder="Phone number" id="auth-phone" autocomplete="tel">
       </div>
       <button class="btn btn-primary" onclick="handleAuth()">Continue &rarr;</button>
       <div class="landing-trust-row">
@@ -1414,9 +1444,6 @@ body {
         <span class="landing-trust-badge"><i class="fa-solid fa-credit-card"></i> PCI</span>
       </div>
       <div class="landing-legal">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy</a></div>
-      <div style="margin-top:10px; text-align:center;">
-        <a onclick="triggerMultiMatch()" style="font-size:10px; color:var(--ink-4); font-weight:500; cursor:pointer; text-decoration:underline; letter-spacing:0.2px;">Prototype: preview multi-account flow &rarr;</a>
-      </div>
     </div>
   </div>
 
@@ -1427,7 +1454,7 @@ body {
     <div class="error-wrap">
       <div class="error-icon">&#128683;</div>
       <div class="error-title">We couldn't find your account</div>
-      <div class="error-sub">The phone number or email you entered doesn't match any patient record. Please contact us for help paying your bill.</div>
+      <div class="error-sub">The account number and phone number you entered don't match a patient record. Please check both and try again, or contact us for help paying your bill.</div>
       <div class="error-contact-card">
         <div class="error-contact-row">
           <div class="error-contact-icon"><i class="fa-solid fa-phone"></i></div>
@@ -1444,7 +1471,7 @@ body {
           </div>
         </div>
       </div>
-      <div class="error-back" onclick="go('auth')">&larr; Try a different number or email</div>
+      <div class="error-back" onclick="go('auth')">&larr; Try again</div>
       <div style="margin-top:32px; padding-top:20px; border-top:1px solid var(--ink-6); width:100%; text-align:center;">
         <div style="font-size:11px; color:var(--ink-4); font-weight:600; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:8px;">Prototype Only</div>
         <a style="font-size:13px; color:var(--green); font-weight:700; cursor:pointer;" onclick="go('home')">Skip to Home Screen &rarr;</a>
@@ -1453,28 +1480,38 @@ body {
   </div>
 
 
-  <!-- SCREEN 2c: DOB DISAMBIGUATION (when 2+ accounts share contact info) -->
-  <div class="screen" id="auth-dob">
+  <!-- SCREEN 2c: CHOOSE MFA METHOD -->
+  <div class="screen" id="auth-method">
     <div class="status-spacer"></div>
     <div class="otp-wrap">
       <div class="auth-logo">
         <span class="auth-logo-pill"><i class="fa-solid fa-user-doctor" style="color:var(--green);"></i></span>
         <span class="auth-logo-name">Pay My Doc</span>
       </div>
-      <div class="auth-question">One more step</div>
-      <div class="otp-sent" style="margin-bottom:24px;">We found <strong>2 accounts</strong> linked to <strong id="dob-contact-display">this contact</strong>. Please confirm your date of birth to continue.</div>
+      <div class="auth-question">Verify it's you</div>
+      <div class="otp-sent" style="margin-bottom:24px;">Choose where to send your 6-digit code.</div>
 
-      <div class="auth-input-wrap">
-        <div class="auth-input-label">Date of Birth</div>
-        <div style="display:flex; gap:10px;">
-          <input class="input" type="text" placeholder="MM" maxlength="2" id="dob-mm" inputmode="numeric" style="text-align:center; width:72px;">
-          <input class="input" type="text" placeholder="DD" maxlength="2" id="dob-dd" inputmode="numeric" style="text-align:center; width:72px;">
-          <input class="input" type="text" placeholder="YYYY" maxlength="4" id="dob-yyyy" inputmode="numeric" style="text-align:center; flex:1;">
-        </div>
+      <div class="mfa-options">
+        <button type="button" class="mfa-option selected" data-method="sms" onclick="selectMfaMethod('sms')">
+          <span class="mfa-option-icon"><i class="fa-solid fa-message"></i></span>
+          <span class="mfa-option-body">
+            <div class="mfa-option-label">Text message</div>
+            <div class="mfa-option-value">(&bull;&bull;&bull;) &bull;&bull;&bull;-1847</div>
+          </span>
+          <span class="mfa-option-radio"></span>
+        </button>
+        <button type="button" class="mfa-option" data-method="email" onclick="selectMfaMethod('email')">
+          <span class="mfa-option-icon"><i class="fa-solid fa-envelope"></i></span>
+          <span class="mfa-option-body">
+            <div class="mfa-option-label">Email</div>
+            <div class="mfa-option-value">a&bull;&bull;&bull;&bull;&bull;&bull;@e&bull;&bull;&bull;&bull;&bull;&bull;.com</div>
+          </span>
+          <span class="mfa-option-radio"></span>
+        </button>
       </div>
 
       <div class="otp-footer">
-        <button class="btn btn-primary" onclick="submitDob()">Continue &rarr;</button>
+        <button class="btn btn-primary" onclick="sendMfaCode()">Send Code &rarr;</button>
       </div>
     </div>
   </div>
@@ -1498,7 +1535,7 @@ body {
         <div class="otp-digit empty">&middot;</div>
         <div class="otp-digit empty">&middot;</div>
       </div>
-      <div class="otp-resend">Didn't get it? <a onclick="go('otp')">Resend code</a></div>
+      <div class="otp-resend">Didn't get it? <a onclick="go('otp')">Resend code</a> &middot; <a onclick="go('auth-method')">Change method</a></div>
       <div class="otp-footer">
         <button class="btn btn-primary" onclick="go('home')">Verify &amp; Continue &rarr;</button>
       </div>
@@ -2614,34 +2651,26 @@ function go(id) {
 }
 
 function handleAuth() {
-  const val = (document.getElementById('auth-input').value || '').trim();
-  if (val.length < 3) { go('auth-error'); return; }
-  document.getElementById('otp-sent-to').textContent = val;
-  // Multi-match flow: in production this is driven by API response. For the prototype,
-  // typing "dual" (or any input containing it) triggers the DOB disambiguation step.
-  if (val.toLowerCase().includes('dual')) {
-    document.getElementById('dob-contact-display').textContent = val.replace(/dual/ig, '').trim() || 'this contact';
-    go('auth-dob');
-    return;
-  }
-  go('otp');
+  // Prototype: no validation. In production MRN and phone are both matched against the practice record.
+  go('auth-method');
 }
 
-function triggerMultiMatch() {
-  const val = (document.getElementById('auth-input').value || '').trim() || 'angela@example.com';
-  document.getElementById('otp-sent-to').textContent = val;
-  document.getElementById('dob-contact-display').textContent = val;
-  go('auth-dob');
+// Masked contact details returned by the practice record (prototype values).
+const MFA_CONTACTS = {
+  sms: '(\u2022\u2022\u2022) \u2022\u2022\u2022-1847',
+  email: 'a\u2022\u2022\u2022\u2022\u2022\u2022@e\u2022\u2022\u2022\u2022\u2022\u2022.com'
+};
+let mfaMethod = 'sms';
+
+function selectMfaMethod(method) {
+  mfaMethod = method;
+  document.querySelectorAll('.mfa-option').forEach(function (el) {
+    el.classList.toggle('selected', el.dataset.method === method);
+  });
 }
 
-function submitDob() {
-  const mm = (document.getElementById('dob-mm').value || '').trim();
-  const dd = (document.getElementById('dob-dd').value || '').trim();
-  const yyyy = (document.getElementById('dob-yyyy').value || '').trim();
-  if (mm.length < 1 || dd.length < 1 || yyyy.length !== 4) {
-    alert('Please enter a valid date of birth.');
-    return;
-  }
+function sendMfaCode() {
+  document.getElementById('otp-sent-to').textContent = MFA_CONTACTS[mfaMethod];
   go('otp');
 }
 
