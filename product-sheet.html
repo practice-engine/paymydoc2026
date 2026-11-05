@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pay My Doc — Product Sheet &amp; Training Module</title>
+<link rel="icon" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --ink:#111827; --ink-2:#374151; --ink-3:#6B7280; --ink-4:#9CA3AF;
+  --ink-5:#D1D5DB; --ink-6:#E5E7EB;
+  --surface:#FFFFFF; --canvas:#F7F7F5;
+  --green:#5CB85C; --green-hover:#4FA64F; --green-dark:#3D8B3D;
+  --green-light:#E8F5E9; --green-50:#F0FDF4;
+  --amber:#D97706; --amber-light:#FEF3C7;
+  --font:'Roboto',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:24px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow-md:0 8px 24px rgba(0,0,0,.08);
+  --shadow-lg:0 20px 48px rgba(0,0,0,.12);
+  --maxw:1200px; --maxw-wide:1560px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--canvas);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* ══ PROGRESS BAR ══ */
+.progress{position:fixed;top:0;left:0;height:3px;background:var(--green);z-index:999;width:0;transition:width .1s linear}
+
+/* ══ NAV ══ */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--ink-6)}
+.nav-inner{max-width:var(--maxw);margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:28px}
+.nav-brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px;letter-spacing:-.5px;margin-right:auto}
+.nav-logo{width:34px;height:34px;border-radius:9px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px}
+.nav-links{display:flex;gap:4px}
+.nav-links a{font-size:13px;font-weight:600;color:var(--ink-3);text-decoration:none;padding:7px 13px;border-radius:99px;transition:.18s}
+.nav-links a:hover{color:var(--green-dark);background:var(--green-50)}
+.nav-print{font-size:12px;font-weight:700;color:#fff;background:var(--green);border:none;padding:9px 16px;border-radius:99px;cursor:pointer;font-family:inherit;transition:.18s;white-space:nowrap}
+.nav-print:hover{background:var(--green-hover)}
+
+/* ══ HERO ══ */
+.hero{position:relative;overflow:hidden;padding:84px 32px 72px;text-align:center;background:linear-gradient(180deg,#fff 0%,var(--green-50) 48%,var(--canvas) 100%)}
+.hero-glow{position:absolute;top:-340px;left:50%;transform:translateX(-50%);width:1100px;height:720px;background:radial-gradient(circle,rgba(92,184,92,.2) 0%,transparent 62%);pointer-events:none}
+.hero-inner{position:relative;z-index:2;max-width:860px;margin:0 auto}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid rgba(92,184,92,.3);color:var(--green-dark);font-size:11px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;padding:7px 16px;border-radius:99px;box-shadow:var(--shadow-sm);margin-bottom:26px}
+.hero h1{font-size:60px;font-weight:900;letter-spacing:-2.4px;line-height:1.04;margin-bottom:22px}
+.hero h1 span{color:var(--green-dark)}
+.hero-sub{font-size:19px;color:var(--ink-3);max-width:660px;margin:0 auto 34px;line-height:1.6}
+.hero-stats{display:flex;justify-content:center;flex-wrap:wrap;margin:40px auto 0;background:#fff;border:1px solid var(--ink-6);border-radius:var(--r-xl);padding:26px 10px;box-shadow:var(--shadow-md);max-width:720px}
+.hstat{flex:1;min-width:140px;padding:4px 20px;border-right:1px solid var(--ink-6)}
+.hstat:last-child{border-right:none}
+.hstat-num{font-size:30px;font-weight:900;color:var(--green-dark);letter-spacing:-1.2px;line-height:1.1}
+.hstat-lbl{font-size:11.5px;color:var(--ink-3);font-weight:600;margin-top:5px;letter-spacing:.3px}
+
+/* ══ SECTION SHELL ══ */
+.section{max-width:var(--maxw);margin:0 auto;padding:76px 32px}
+.section.wide{max-width:var(--maxw-wide)}
+.section-head{text-align:center;max-width:680px;margin:0 auto 52px}
+.section-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--green-dark);background:var(--green-light);padding:5px 13px;border-radius:99px;margin-bottom:16px}
+.section-head h2{font-size:38px;font-weight:900;letter-spacing:-1.3px;line-height:1.14;margin-bottom:14px}
+.section-head p{font-size:16px;color:var(--ink-3);line-height:1.65}
+
+/* ══ JOURNEY STRIP ══ */
+.journey{background:#fff;border-top:1px solid var(--ink-6);border-bottom:1px solid var(--ink-6)}
+.journey-track{display:flex;align-items:stretch;max-width:var(--maxw);margin:0 auto;padding:40px 32px;overflow-x:auto}
+.jstep{flex:1;min-width:132px;text-align:center;position:relative;padding:0 10px}
+.jstep::after{content:'';position:absolute;top:21px;left:calc(50% + 26px);right:calc(-50% + 26px);height:2px;background:linear-gradient(90deg,var(--green-light),var(--ink-6));z-index:0}
+.jstep:last-child::after{display:none}
+.jstep-dot{position:relative;z-index:1;width:44px;height:44px;margin:0 auto 12px;border-radius:50%;background:var(--green-50);border:2px solid var(--green);color:var(--green-dark);display:flex;align-items:center;justify-content:center;font-size:16px}
+.jstep-n{font-size:10px;font-weight:800;color:var(--green-dark);letter-spacing:1px;margin-bottom:4px}
+.jstep-t{font-size:13px;font-weight:700;color:var(--ink);line-height:1.35}
+.jstep-s{font-size:11.5px;color:var(--ink-4);margin-top:3px}
+
+/* ══ SCREEN BLOCKS ══ */
+.screens{display:flex;flex-direction:column;gap:84px}
+.screen-row{display:block}
+.screen-head{display:flex;align-items:flex-start;gap:18px;margin-bottom:22px;max-width:980px}
+.screen-head-txt{flex:1}
+.screen-body{display:grid;grid-template-columns:1.25fr 1fr;gap:40px;margin-top:30px;align-items:start}
+.screen-copy{max-width:none}
+.screen-num{display:flex;align-items:center;justify-content:center;width:42px;height:42px;flex-shrink:0;border-radius:12px;background:var(--green);color:#fff;font-size:17px;font-weight:900;box-shadow:0 6px 16px rgba(92,184,92,.34)}
+.screen-head h3{font-size:31px;font-weight:900;letter-spacing:-1.1px;line-height:1.15;margin-bottom:8px}
+.screen-kicker{font-size:12px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--green-dark);margin-bottom:7px}
+.screen-head p{font-size:16px;color:var(--ink-2);line-height:1.7;margin-top:10px}
+.screen-side{display:flex;flex-direction:column;gap:0}
+.feat-list{list-style:none;display:flex;flex-direction:column;gap:11px}
+.feat-list li{display:flex;gap:11px;font-size:14.5px;color:var(--ink-2);line-height:1.6}
+.feat-list i{color:var(--green);font-size:12px;margin-top:6px;flex-shrink:0}
+.feat-list strong{color:var(--ink);font-weight:700}
+.feat-list code{background:var(--ink-6);padding:1px 5px;border-radius:4px;font-size:13px}
+
+.screen-shot{position:relative}
+.shot-zoom{position:absolute;top:50px;right:14px;z-index:3;background:rgba(17,24,39,.72);color:#fff;border:none;border-radius:8px;padding:7px 11px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;opacity:0;transition:.2s;backdrop-filter:blur(6px)}
+.screen-shot:hover .shot-zoom{opacity:1}
+.shot-zoom:hover{background:var(--green)}
+.shot-frame{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--ink-6);background:#fff;box-shadow:var(--shadow-lg);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.shot-frame:hover{box-shadow:0 26px 60px rgba(0,0,0,.15)}
+.shot-frame img{cursor:zoom-in}
+.shot-bar{display:flex;align-items:center;gap:6px;padding:9px 13px;background:#FBFBFA;border-bottom:1px solid var(--ink-6)}
+.shot-dot{width:9px;height:9px;border-radius:50%}
+.shot-url{margin-left:10px;font-size:10.5px;color:var(--ink-4);font-weight:500;letter-spacing:.2px}
+.shot-frame img{display:block;width:100%;height:auto}
+
+.callout{margin-top:20px;display:flex;gap:12px;background:var(--green-50);border:1px solid rgba(92,184,92,.26);border-left:3px solid var(--green);border-radius:var(--r-md);padding:14px 16px}
+.callout i{color:var(--green-dark);font-size:13px;margin-top:3px}
+.callout div{font-size:13.5px;color:var(--ink-2);line-height:1.6}
+.callout strong{color:var(--green-dark);font-weight:800}
+.callout.amber{background:var(--amber-light);border-color:rgba(217,119,6,.3);border-left-color:var(--amber)}
+.callout.amber i{color:var(--amber)}
+.callout.amber strong{color:var(--amber)}
+
+.vo{margin-top:16px;border:1px dashed var(--ink-5);border-radius:var(--r-md);padding:13px 16px;background:#fff}
+.vo-lbl{font-size:9.5px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-4);display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.vo-txt{font-size:13.5px;color:var(--ink-2);font-style:italic;line-height:1.6}
+
+/* ══ LIGHTBOX ══ */
+.lb{position:fixed;inset:0;z-index:500;background:rgba(10,15,12,.92);display:none;align-items:center;justify-content:center;padding:28px;cursor:zoom-out}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:92vh;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.lb-close{position:absolute;top:22px;right:28px;background:rgba(255,255,255,.12);color:#fff;border:none;width:42px;height:42px;border-radius:50%;font-size:19px;cursor:pointer;font-family:inherit}
+.lb-close:hover{background:var(--green)}
+.lb-cap{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:rgba(255,255,255,.72);font-size:13px;font-weight:600}
+
+/* ══ PILLARS ══ */
+.pillars{background:#fff;border-top:1px solid var(--ink-6);border-bottom:1px solid var(--ink-6)}
+.pillar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+.pillar{background:var(--canvas);border:1px solid var(--ink-6);border-radius:var(--r-lg);padding:26px 24px;transition:.25s}
+.pillar:hover{border-color:var(--green);background:var(--green-50);transform:translateY(-3px)}
+.pillar-ico{width:46px;height:46px;border-radius:13px;background:var(--green-light);color:var(--green-dark);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:15px}
+.pillar h4{font-size:16.5px;font-weight:800;letter-spacing:-.4px;margin-bottom:7px}
+.pillar p{font-size:13.5px;color:var(--ink-3);line-height:1.65}
+
+/* ══ SECURITY ══ */
+.sec-band{background:linear-gradient(135deg,#0F2419 0%,#1A3D28 55%,#245235 100%);color:#fff;padding:66px 32px}
+.sec-inner{max-width:var(--maxw);margin:0 auto}
+.sec-head{text-align:center;margin-bottom:44px}
+.sec-head h2{font-size:34px;font-weight:900;letter-spacing:-1.2px;margin-bottom:12px}
+.sec-head p{color:rgba(255,255,255,.66);font-size:16px;max-width:600px;margin:0 auto}
+.sec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:18px}
+.sec-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:var(--r-lg);padding:22px;backdrop-filter:blur(8px)}
+.sec-card i{font-size:19px;color:#86EFAC;margin-bottom:12px;display:block}
+.sec-card h5{font-size:14.5px;font-weight:800;margin-bottom:6px}
+.sec-card p{font-size:12.5px;color:rgba(255,255,255,.62);line-height:1.6}
+
+/* ══ VIDEO STORYBOARD ══ */
+.board{display:grid;grid-template-columns:repeat(auto-fit,minmax(265px,1fr));gap:20px}
+.board-card{background:#fff;border:1px solid var(--ink-6);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);transition:.25s;display:flex;flex-direction:column}
+.board-card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px);border-color:var(--green)}
+.board-top{display:flex;align-items:center;gap:9px;padding:13px 16px;background:var(--green-dark);color:#fff}
+.board-time{font-size:10.5px;font-weight:800;letter-spacing:.8px;background:rgba(255,255,255,.18);padding:3px 9px;border-radius:99px;white-space:nowrap}
+.board-title{font-size:13.5px;font-weight:800;letter-spacing:-.2px}
+.board-body{padding:16px;flex:1}
+.board-body img{width:100%;border-radius:var(--r-sm);border:1px solid var(--ink-6);margin-bottom:13px;display:block}
+.board-shot{font-size:12px;color:var(--ink-3);line-height:1.6}
+.board-shot b{color:var(--ink);font-weight:700}
+.board-vo{margin-top:11px;padding-top:11px;border-top:1px dashed var(--ink-5);font-size:12px;font-style:italic;color:var(--green-dark);line-height:1.6}
+
+/* ══ TRAINING NOTES ══ */
+.tnotes{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+.tnote{background:#fff;border:1px solid var(--ink-6);border-left:3px solid var(--green);border-radius:var(--r-md);padding:20px 22px}
+.tnote h5{font-size:14.5px;font-weight:800;margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.tnote h5 i{color:var(--green);font-size:13px}
+.tnote p{font-size:13.5px;color:var(--ink-3);line-height:1.68}
+
+/* ══ FOOTER ══ */
+.foot{background:var(--ink);color:rgba(255,255,255,.62);padding:44px 32px;text-align:center}
+.foot-brand{display:inline-flex;align-items:center;gap:10px;color:#fff;font-weight:900;font-size:17px;margin-bottom:12px}
+.foot-logo{width:30px;height:30px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px}
+.foot p{font-size:12.5px;line-height:1.75}
+.foot-badges{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+.foot-badge{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);display:inline-flex;align-items:center;gap:6px}
+.foot-badge i{color:#86EFAC}
+
+/* ══ REVEAL ══ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:900px){
+  .hero{padding:56px 20px 48px}
+  .hero h1{font-size:40px;letter-spacing:-1.5px}
+  .hero-sub{font-size:16.5px}
+  .screen-body{grid-template-columns:1fr;gap:24px;margin-top:22px}
+  .screen-head h3{font-size:25px}
+  .screen-head{gap:13px}
+  .screen-num{width:34px;height:34px;font-size:14px}
+  .section{padding:54px 20px}
+  .section-head h2{font-size:29px}
+  .nav-links{display:none}
+  .jstep::after{display:none}
+  .screens{gap:62px}
+}
+@media print{
+  .nav,.progress,.vo{display:none}
+  body{background:#fff}
+  .reveal{opacity:1;transform:none}
+  .screen-row{page-break-inside:avoid}
+  .shot-zoom{display:none}
+  .screen-body{grid-template-columns:1fr 1fr}
+  .shot-frame{box-shadow:none;border:1px solid #ccc}
+  .sec-band{background:#1A3D28!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <span class="nav-logo"><i class="fa-solid fa-credit-card"></i></span>
+      Pay My Doc
+    </div>
+    <div class="nav-links">
+      <a href="#journey">Journey</a>
+      <a href="#walkthrough">Walkthrough</a>
+      <a href="#pillars">Capabilities</a>
+      <a href="#security">Security</a>
+      <a href="#storyboard">Video Script</a>
+    </div>
+    <button class="nav-print" onclick="window.print()"><i class="fa-solid fa-print"></i>&nbsp; Print / PDF</button>
+  </div>
+</nav>
+
+<!-- ════════════ HERO ════════════ -->
+<header class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="eyebrow"><i class="fa-solid fa-circle-check"></i> Product Sheet &middot; Training Module &middot; v1.1.4</div>
+    <h1>Every medical bill,<br><span>paid in under a minute.</span></h1>
+    <p class="hero-sub">Pay My Doc turns the paper statement into a two-tap digital checkout. Patients sign in with the account number already printed on their bill, see exactly what insurance covered, and settle the balance in full, in part, or across interest-free months.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">12</div><div class="hstat-lbl">Screens end to end</div></div>
+      <div class="hstat"><div class="hstat-num">0%</div><div class="hstat-lbl">Interest on all plans</div></div>
+      <div class="hstat"><div class="hstat-num">3</div><div class="hstat-lbl">Ways to pay</div></div>
+      <div class="hstat"><div class="hstat-num">~60s</div><div class="hstat-lbl">Sign-in to receipt</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════ JOURNEY ════════════ -->
+<section class="journey" id="journey">
+  <div class="journey-track">
+    <div class="jstep"><div class="jstep-dot"><i class="fa-solid fa-right-to-bracket"></i></div><div class="jstep-n">STEP 1</div><div class="jstep-t">Sign In</div><div class="jstep-s">MRN + phone</div></div>
+    <div class="jstep"><div class="jstep-dot"><i class="fa-solid fa-shield-halved"></i></div><div class="jstep-n">STEP 2</div><div class="jstep-t">Verify</div><div class="jstep-s">SMS or email code</div></div>
+    <div class="jstep"><div class="jstep-dot"><i class="fa-solid fa-gauge-high"></i></div><div class="jstep-n">STEP 3</div><div class="jstep-t">Review Balance</div><div class="jstep-s">Itemized by visit</div></div>
+    <div class="jstep"><div class="jstep-dot"><i class="fa-solid fa-hand-pointer"></i></div><div class="jstep-n">STEP 4</div><div class="jstep-t">Choose How</div><div class="jstep-s">Full, plan, or partial</div></div>
+    <div class="jstep"><div class="jstep-dot"><i class="fa-solid fa-credit-card"></i></div><div class="jstep-n">STEP 5</div><div class="jstep-t">Pay</div><div class="jstep-s">Saved or new card</div></div>
+    <div class="jstep"><div class="jstep-dot"><i class="fa-solid fa-receipt"></i></div><div class="jstep-n">STEP 6</div><div class="jstep-t">Get Receipt</div><div class="jstep-s">On-screen + PDF</div></div>
+  </div>
+</section>
+
+<!-- ════════════ WALKTHROUGH ════════════ -->
+<section class="section wide" id="walkthrough">
+  <div class="section-head reveal">
+    <div class="section-tag">Screen-by-screen</div>
+    <h2>The complete patient walkthrough</h2>
+    <p>Every screen in the production app, in the order a patient meets it — with what it does, why it exists, and the line a narrator would read over it.</p>
+  </div>
+
+  <div class="screens">
+
+    <!-- 1 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">1</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">Landing &amp; Sign In</div>
+          <h3>No password to forget</h3>
+          <p>The front door is a single card. Patients enter the <strong>account number (MRN)</strong> printed on their statement plus the <strong>phone number on file</strong> — both must match the practice record before anything is revealed.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/1.png','No password to forget')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com</span></div>
+          <img onclick="zoom('Video/SS/1.png','No password to forget')" src="Video/SS/1.png" alt="Pay My Doc sign-in page with account number and phone number fields">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>Two-factor identity match</strong> — a stolen statement alone is not enough to open an account.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Zero enrollment</strong> — no registration, username, or password is ever created.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Value stated up front</strong> — 0% plans, itemized detail, and card options are visible before sign-in.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Trust signals</strong> — HIPAA, 256-bit SSL, and PCI-DSS badges sit beside the form.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          <div class="callout"><i class="fa-solid fa-lightbulb"></i><div><strong>Why it matters:</strong> password resets are a major drop-off point in patient portals. Removing the account removes the reset.</div></div>
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"It starts with the bill already in your hand. Your account number, your phone number — that's the whole sign-in."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">2</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">Multi-Factor Authentication</div>
+          <h3>You choose where the code goes</h3>
+          <p>Once the record matches, the app offers the contact methods already on file — <strong>text message or email</strong> — with every character masked except the last four digits and the domain shape.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/2.png','You choose where the code goes')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com/verify</span></div>
+          <img onclick="zoom('Video/SS/2.png','You choose where the code goes')" src="Video/SS/2.png" alt="Verify it's you screen offering text message or email delivery of a 6-digit code">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>Masked destinations</strong> — <code>(***) ***-4984</code> confirms identity without exposing it on a shoulder-surfed screen.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Patient-selected channel</strong> — no phone handy, or a shared landline? Send it to email instead.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Text message pre-selected</strong> — the fastest path stays one tap away.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          <div class="callout"><i class="fa-solid fa-shield-halved"></i><div><strong>Why it matters:</strong> MFA is what lets a no-password flow still clear the bar for protected health information.</div></div>
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"We'll confirm it's really you — by text or by email, whichever you have on hand."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">3</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">Code Entry</div>
+          <h3>Six digits, then you're in</h3>
+          <p>A clean six-box entry field confirms the destination in plain text so the patient knows which device to check. A <strong>resend link</strong> handles the carrier delays that derail most one-time-code flows.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/3.png','Six digits, then you're in')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com/verify</span></div>
+          <img onclick="zoom('Video/SS/3.png','Six digits, then you're in')" src="Video/SS/3.png" alt="Enter your code screen with six empty digit boxes and a resend link">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>Destination echoed back</strong> — "We sent a 6-digit code to (561) 247-4984."</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Resend without restarting</strong> — the patient never loses their place in the flow.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Single-purpose screen</strong> — one field, one button, nothing competing for attention.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"Six digits. No app to download, no account to create."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">4</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">Patient Dashboard</div>
+          <h3>One number, three doors</h3>
+          <p>The home screen answers the only question a patient arrives with — <em>what do I owe?</em> — then immediately offers every way to resolve it. The balance is the hero; the three payment paths sit beside it as equals.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/4.png','One number, three doors')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com/home</span></div>
+          <img onclick="zoom('Video/SS/4.png','One number, three doors')" src="Video/SS/4.png" alt="Patient dashboard showing total due of $161.02 and three payment options">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>Pay in full</strong> — the primary action, styled in solid green with the exact amount in the label.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Start a payment plan</strong> — always 0% interest, never buried behind a phone call.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Pay a partial amount</strong> — "pay what you can today" removes the all-or-nothing wall.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Active plan strip</strong> — any running plan and its balance surface right below.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Personalized greeting</strong> — time-aware, by first name, with the practice location in the header.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          <div class="callout"><i class="fa-solid fa-lightbulb"></i><div><strong>Why it matters:</strong> presenting partial payment and plans as peers of "pay in full" gives a hesitant patient something to say yes to.</div></div>
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"Here's your balance — and here are three ways to handle it. Pay it all, split it up, or pay what you can today."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">5</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">Balance Detail</div>
+          <h3>Every dollar, explained</h3>
+          <p>The detail modal breaks the balance down <strong>by visit date and line item</strong> — procedure codes, product SKUs, and the full insurance math behind each one.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/5.png','Every dollar, explained')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com/home</span></div>
+          <img onclick="zoom('Video/SS/5.png','Every dollar, explained')" src="Video/SS/5.png" alt="Balance Detail modal itemizing charges by visit with insurance breakdown">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>CPT and product codes</strong> — "10040 — Acne surgery" instead of an unexplained charge.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Full insurance waterfall</strong> — Billed, Patient Paid, Insurance Paid, and Contractual Adjustment on every line.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Patient Responsibility per line</strong> — the number that actually matters, called out in green.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Totals reconcile</strong> — line items sum to the dashboard figure exactly.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          <div class="callout amber"><i class="fa-solid fa-phone-slash"></i><div><strong>Call deflection:</strong> "what is this charge?" is a classic billing call. This modal answers it before the patient reaches for the phone.</div></div>
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"No mystery line items. Every visit, every code, and exactly what insurance did and didn't cover."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">6</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">Pay in Full</div>
+          <h3>Checkout without the friction</h3>
+          <p>A two-panel checkout: the amount on the left, the card on the right. Saved cards are pre-selected, so a returning patient is <strong>one tap from done</strong>.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/6.png','Checkout without the friction')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com/pay</span></div>
+          <img onclick="zoom('Video/SS/6.png','Checkout without the friction')" src="Video/SS/6.png" alt="Pay in Full checkout with total due and saved Visa card">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>Amount restated</strong> — no ambiguity about what is being charged.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Itemized breakdown still reachable</strong> — patients can verify without losing the checkout.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Saved card on file</strong> — brand, last four, and expiry, with Add New Card inline.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Amount in the button</strong> — "Pay $161.02" leaves nothing to interpretation.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"Pick your card. Confirm the amount. That's it."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">7</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">Payment Plans</div>
+          <h3>Affordability, set by the patient</h3>
+          <p>Three preset terms — <strong>3, 6, or 12 months</strong> — with the monthly figure calculated and displayed on each tile. Below them, a slider lets the patient name their own number and the app derives the schedule.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/9.png','Affordability, set by the patient')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com/plans</span></div>
+          <img onclick="zoom('Video/SS/9.png','Affordability, set by the patient')" src="Video/SS/9.png" alt="Payment Plans screen with 3, 6, and 12 month options plus a custom amount slider">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>Always 0% interest</strong> — stated on the hero, the tiles, and the slider.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Custom monthly amount</strong> — drag to any figure; the app shows the resulting term (e.g. $20/mo ≈ 19 payments).</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Autopay disclosed before consent</strong> — the exact card and recurring schedule are spelled out in a confirmation band.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Card selected at setup</strong> — the plan and its funding source are locked in together.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          <div class="callout"><i class="fa-solid fa-lightbulb"></i><div><strong>Why it matters:</strong> a patient who sets their own monthly amount has committed to a number they already believe they can pay.</div></div>
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"Three months, twelve months — or slide to whatever fits your budget. Always zero interest."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">8</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">Partial Payment</div>
+          <h3>Pay what you can, today</h3>
+          <p>A slider from a sensible floor up to the full balance. The remaining amount stays on the account with <strong>no penalty and no commitment</strong> — and the copy says so plainly.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/10.png','Pay what you can, today')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com/partial</span></div>
+          <img onclick="zoom('Video/SS/10.png','Pay what you can, today')" src="Video/SS/10.png" alt="Partial Payment screen with amount slider set to $108.02">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>Live amount display</strong> — the figure updates as the slider moves.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Outstanding balance shown</strong> — the patient always sees what remains.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Explicit reassurance</strong> — remaining balance stays on the account; a plan can still be started later.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Same checkout panel</strong> — identical card UI as every other payment path.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          <div class="callout amber"><i class="fa-solid fa-chart-line"></i><div><strong>Revenue impact:</strong> partial collection beats no collection. This screen gives a patient who can't pay in full a reason to stay.</div></div>
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"Can't cover it all today? Pay what you can. The rest just waits for you."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">9</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">Confirmation</div>
+          <h3>Proof, the moment it clears</h3>
+          <p>A full-screen success state with the amount, a <strong>unique receipt number</strong>, the date, the card used, and both billing and provider addresses — everything a patient needs for an FSA or HSA claim.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/7.png','Proof, the moment it clears')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com/confirmation</span></div>
+          <img onclick="zoom('Video/SS/7.png','Proof, the moment it clears')" src="Video/SS/7.png" alt="Payment Successful screen with receipt number, date, and card used">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>Traceable receipt ID</strong> — e.g. PMD-051126-091035, quotable to any billing rep.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Billed-to and provider blocks</strong> — the practice's name and address for reimbursement paperwork.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Unambiguous success</strong> — green check, large amount, no guessing whether it went through.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Download Receipt</strong> — one tap to the printable version.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"Done. Your receipt is ready before you've put your card away."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">10</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">PDF Receipt</div>
+          <h3>A document, not a screenshot</h3>
+          <p>Download Receipt produces a <strong>print-ready one-page PDF</strong> carrying a PAID badge, the full transaction record, and support contact details.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/8.png','A document, not a screenshot')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">Print &rarr; Save as PDF</span></div>
+          <img onclick="zoom('Video/SS/8.png','A document, not a screenshot')" src="Video/SS/8.png" alt="Printable PDF receipt with PAID badge shown in a browser print dialog">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>PAID badge and official header</strong> — reads as a real financial document.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Posting expectation set</strong> — "allow one business day to appear on your provider statement" preempts a confused call.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Support details embedded</strong> — email, phone, and PCI-DSS notice in the footer.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Valid without signature</strong> — stated explicitly for employer and insurer submissions.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"Save it, print it, send it to your FSA. It's a real receipt."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">11</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">Account Menu &amp; Payment Methods</div>
+          <h3>The wallet, under the patient's control</h3>
+          <p>The avatar menu confirms <em>who is signed in</em> and exposes the full account surface. Payment Methods lists saved cards with one-tap removal and a standing promise: <strong>Pay My Doc never stores a full card number</strong>.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/11.png','The wallet, under the patient's control')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com/methods</span></div>
+          <img onclick="zoom('Video/SS/11.png','The wallet, under the patient's control')" src="Video/SS/11.png" alt="Payment Methods page with saved Visa card and the account dropdown menu open">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>Identity confirmed in the menu</strong> — name and account number, so nobody pays on the wrong record.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Manage Payment Methods</strong> — add or delete cards without contacting the office.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>My Payment Plans</strong> — jump straight to any active plan.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Help &amp; Assistance</strong> — billing support reachable from every screen.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Explicit Sign Out</strong> — important on the shared and family devices these bills get opened on.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"Your cards, your plans, your help — all one tap from anywhere in the app."</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 -->
+    <div class="screen-row reveal">
+      <div class="screen-head">
+        <div class="screen-num">12</div>
+        <div class="screen-head-txt">
+          <div class="screen-kicker">My Payment Plans</div>
+          <h3>A plan you can watch finish</h3>
+          <p>Active plans get a progress bar, a payment count, and the three numbers that matter: <strong>paid so far, remaining, and next charge date</strong>. The patient keeps every lever.</p>
+        </div>
+      </div>
+
+      <div class="screen-shot">
+        <button class="shot-zoom" onclick="zoom('Video/SS/12.png','A plan you can watch finish')"><i class="fa-solid fa-expand"></i> Enlarge</button>
+        <div class="shot-frame">
+          <div class="shot-bar"><span class="shot-dot" style="background:#FF5F57"></span><span class="shot-dot" style="background:#FEBC2E"></span><span class="shot-dot" style="background:#28C840"></span><span class="shot-url">paymydoc.com/my-plans</span></div>
+          <img onclick="zoom('Video/SS/12.png','A plan you can watch finish')" src="Video/SS/12.png" alt="My Payment Plans screen showing an active 19-month plan with progress bar">
+        </div>
+      </div>
+
+      <div class="screen-body">
+        <div class="screen-copy">
+          <ul class="feat-list">
+          <li><i class="fa-solid fa-check"></i><span><strong>Visual progress</strong> — "1 of 19 payments · 5% complete" makes a long plan feel finite.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Next charge date</strong> — no surprise debits.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Update payment method</strong> — a new card won't break the plan or trigger a failed charge.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Pay off and end early</strong> — settle the remainder in one tap, no penalty.</span></li>
+          <li><i class="fa-solid fa-check"></i><span><strong>Payment history</strong> — a full audit trail of every charge.</span></li>
+        </ul>
+        </div>
+        <div class="screen-side">
+          <div class="callout"><i class="fa-solid fa-lightbulb"></i><div><strong>Why it matters:</strong> self-service card updates head off the failed-payment cycle that quietly ends most medical payment plans.</div></div>
+          <div class="vo"><div class="vo-lbl"><i class="fa-solid fa-microphone"></i> Voiceover</div><div class="vo-txt">"Track it, change the card, or clear the balance early. The plan bends to you."</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════ PILLARS ════════════ -->
+<section class="pillars" id="pillars">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="section-tag">At a glance</div>
+      <h2>What the product does</h2>
+      <p>Eight capabilities that define Pay My Doc — the short list for a slide, a sell sheet, or a training recap.</p>
+    </div>
+    <div class="pillar-grid reveal">
+      <div class="pillar"><div class="pillar-ico"><i class="fa-solid fa-key"></i></div><h4>Passwordless Access</h4><p>MRN plus phone, matched against the practice record and confirmed by a one-time code. Nothing to enroll in, nothing to reset.</p></div>
+      <div class="pillar"><div class="pillar-ico"><i class="fa-solid fa-list-ul"></i></div><h4>Itemized Transparency</h4><p>Charges broken out by visit, CPT code, and product, with the full insurance waterfall on every line.</p></div>
+      <div class="pillar"><div class="pillar-ico"><i class="fa-solid fa-bolt"></i></div><h4>Pay in Full</h4><p>Saved-card checkout with the amount in the button. One tap for a returning patient.</p></div>
+      <div class="pillar"><div class="pillar-ico"><i class="fa-solid fa-calendar-days"></i></div><h4>0% Payment Plans</h4><p>Preset 3, 6, and 12-month terms or a custom monthly amount, with autopay disclosed before consent.</p></div>
+      <div class="pillar"><div class="pillar-ico"><i class="fa-solid fa-coins"></i></div><h4>Partial Payments</h4><p>Pay any amount today. The balance stays on the account with no penalty and no lost options.</p></div>
+      <div class="pillar"><div class="pillar-ico"><i class="fa-solid fa-file-invoice-dollar"></i></div><h4>Instant Receipts</h4><p>On-screen confirmation plus a print-ready PDF with a traceable receipt number for FSA and HSA claims.</p></div>
+      <div class="pillar"><div class="pillar-ico"><i class="fa-solid fa-wallet"></i></div><h4>Wallet Management</h4><p>Add and remove cards, update the card funding an active plan, all without calling the office.</p></div>
+      <div class="pillar"><div class="pillar-ico"><i class="fa-solid fa-chart-simple"></i></div><h4>Plan Tracking</h4><p>Progress bar, next charge date, full payment history, and a one-tap early payoff.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ SECURITY ════════════ -->
+<section class="sec-band" id="security">
+  <div class="sec-inner">
+    <div class="sec-head reveal">
+      <h2>Built for protected health information</h2>
+      <p>Security is not a footer badge here — it is visible on every screen a patient touches, because trust is what gets a medical bill paid online.</p>
+    </div>
+    <div class="sec-grid reveal">
+      <div class="sec-card"><i class="fa-solid fa-user-shield"></i><h5>Two-Factor Identity</h5><p>Account number and phone must both match the practice record before any balance is shown.</p></div>
+      <div class="sec-card"><i class="fa-solid fa-comment-sms"></i><h5>MFA on Every Login</h5><p>A 6-digit one-time code to a masked phone or email the patient selects.</p></div>
+      <div class="sec-card"><i class="fa-solid fa-lock"></i><h5>256-bit Encryption</h5><p>Bank-level SSL in transit, stated in the header and reinforced at checkout.</p></div>
+      <div class="sec-card"><i class="fa-solid fa-credit-card"></i><h5>PCI-DSS Compliant</h5><p>Full card numbers are never stored. Saved cards show brand, last four, and expiry only.</p></div>
+      <div class="sec-card"><i class="fa-solid fa-hospital-user"></i><h5>HIPAA Aligned</h5><p>Clinical detail is exposed only after the identity match and the one-time code both clear.</p></div>
+      <div class="sec-card"><i class="fa-solid fa-eye-slash"></i><h5>Masked by Default</h5><p>Contact details are redacted on screen — enough to recognize, never enough to harvest.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ STORYBOARD ════════════ -->
+<section class="section" id="storyboard">
+  <div class="section-head reveal">
+    <div class="section-tag">Production kit</div>
+    <h2>90-second video storyboard</h2>
+    <p>Six beats, built from these screens — drop-in shot direction and narration for a product video or onboarding clip.</p>
+  </div>
+  <div class="board reveal">
+
+    <div class="board-card">
+      <div class="board-top"><span class="board-time">0:00–0:12</span><span class="board-title">The Problem</span></div>
+      <div class="board-body">
+        <img src="Video/SS/1.png" alt="Sign-in screen">
+        <div class="board-shot"><b>Shot:</b> Paper statement on a kitchen counter, then a hard cut to the sign-in card. Slow push in on the two fields.</div>
+        <div class="board-vo">"A medical bill shows up. Somewhere in it is a number you owe — and almost no way to just pay it."</div>
+      </div>
+    </div>
+
+    <div class="board-card">
+      <div class="board-top"><span class="board-time">0:12–0:28</span><span class="board-title">Getting In</span></div>
+      <div class="board-body">
+        <img src="Video/SS/2.png" alt="MFA method choice screen">
+        <div class="board-shot"><b>Shot:</b> Type the MRN and phone, cut to the MFA cards, tap Text message, then the six boxes filling in.</div>
+        <div class="board-vo">"No password. No account. Your bill number, your phone, and a six-digit code."</div>
+      </div>
+    </div>
+
+    <div class="board-card">
+      <div class="board-top"><span class="board-time">0:28–0:42</span><span class="board-title">The Reveal</span></div>
+      <div class="board-body">
+        <img src="Video/SS/4.png" alt="Dashboard">
+        <div class="board-shot"><b>Shot:</b> Dashboard resolves. Hold on the balance, then the three option cards animate in one by one.</div>
+        <div class="board-vo">"Here's what you owe — and three ways to deal with it."</div>
+      </div>
+    </div>
+
+    <div class="board-card">
+      <div class="board-top"><span class="board-time">0:42–0:56</span><span class="board-title">Transparency</span></div>
+      <div class="board-body">
+        <img src="Video/SS/5.png" alt="Balance detail modal">
+        <div class="board-shot"><b>Shot:</b> Modal opens. Highlight the CPT line, then the insurance rows, ending on Patient Responsibility.</div>
+        <div class="board-vo">"Every code, every adjustment, every dollar insurance covered. No mystery charges."</div>
+      </div>
+    </div>
+
+    <div class="board-card">
+      <div class="board-top"><span class="board-time">0:56–1:14</span><span class="board-title">Flexibility</span></div>
+      <div class="board-body">
+        <img src="Video/SS/9.png" alt="Payment plans">
+        <div class="board-shot"><b>Shot:</b> Split screen — plan tiles on one side, the partial-payment slider dragging on the other.</div>
+        <div class="board-vo">"Pay it all. Split it over twelve months at zero interest. Or pay what you can today."</div>
+      </div>
+    </div>
+
+    <div class="board-card">
+      <div class="board-top"><span class="board-time">1:14–1:30</span><span class="board-title">Done</span></div>
+      <div class="board-body">
+        <img src="Video/SS/7.png" alt="Payment successful">
+        <div class="board-shot"><b>Shot:</b> Green check animates, receipt details land, PDF slides into frame. End on the logo.</div>
+        <div class="board-vo">"Paid. Receipt in hand. The whole thing took less than a minute. Pay My Doc."</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════ TRAINING NOTES ════════════ -->
+<section class="pillars">
+  <div class="section">
+    <div class="section-head reveal">
+      <div class="section-tag">For staff</div>
+      <h2>Training notes &amp; talking points</h2>
+      <p>What front-desk and billing teams should know when a patient calls about the app.</p>
+    </div>
+    <div class="tnotes reveal">
+      <div class="tnote"><h5><i class="fa-solid fa-circle-question"></i> "I don't have a login"</h5><p>Correct — there isn't one. Direct the patient to the account number (MRN) on their statement plus the phone number on file. If either doesn't match the practice record, sign-in fails by design.</p></div>
+      <div class="tnote"><h5><i class="fa-solid fa-circle-question"></i> "I never got the code"</h5><p>Have them tap Resend, or switch channels — the verify screen offers both text and email from the contact details on file. If neither arrives, the contact info in the practice record likely needs updating.</p></div>
+      <div class="tnote"><h5><i class="fa-solid fa-circle-question"></i> "What is this charge?"</h5><p>Walk them to View Details on the dashboard. Every line shows the CPT or product code, what was billed, what insurance paid and adjusted, and the remaining patient responsibility.</p></div>
+      <div class="tnote"><h5><i class="fa-solid fa-circle-question"></i> "I can't afford this"</h5><p>Two self-service answers: a 0% plan at 3, 6, 12 months or any custom monthly amount — or a partial payment today with the remainder left on the account, no penalty.</p></div>
+      <div class="tnote"><h5><i class="fa-solid fa-circle-question"></i> "My card expired"</h5><p>Account menu → My Payment Plans → Update payment method. The plan continues uninterrupted; no need to cancel and rebuild it.</p></div>
+      <div class="tnote"><h5><i class="fa-solid fa-circle-question"></i> "I need a receipt for my FSA"</h5><p>Download Receipt on the confirmation screen produces a one-page PDF with a receipt number, provider address, and a note that it is valid without a signature.</p></div>
+      <div class="tnote"><h5><i class="fa-solid fa-circle-question"></i> "Is my payment posted?"</h5><p>The PDF states it: allow one business day for the payment to appear on the provider statement. The receipt is proof from the moment it's issued.</p></div>
+      <div class="tnote"><h5><i class="fa-solid fa-circle-question"></i> "Do you keep my card?"</h5><p>Only brand, last four, and expiry. The platform never stores a full card number — the Payment Methods screen says so on the page.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="foot">
+  <div class="foot-brand"><span class="foot-logo"><i class="fa-solid fa-credit-card"></i></span> Pay My Doc</div>
+  <div class="foot-badges">
+    <span class="foot-badge"><i class="fa-solid fa-shield-halved"></i> HIPAA Compliant</span>
+    <span class="foot-badge"><i class="fa-solid fa-lock"></i> 256-bit SSL</span>
+    <span class="foot-badge"><i class="fa-solid fa-credit-card"></i> PCI-DSS</span>
+  </div>
+  <p>Product sheet &amp; training module · Compiled from production screens, v1.1.4<br>Screens shown use demonstration data. © 2026 Pay My Doc.</p>
+</footer>
+
+<div class="lb" id="lb" onclick="closeZoom()">
+  <button class="lb-close" onclick="closeZoom()">&times;</button>
+  <img id="lb-img" src="" alt="">
+  <div class="lb-cap" id="lb-cap"></div>
+</div>
+
+<script>
+// Lightbox
+function zoom(src, cap){
+  document.getElementById('lb-img').src = src;
+  document.getElementById('lb-cap').textContent = cap + ' — click anywhere to close';
+  document.getElementById('lb').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeZoom(){
+  document.getElementById('lb').classList.remove('on');
+  document.body.style.overflow = '';
+}
+addEventListener('keydown', e => { if (e.key === 'Escape') closeZoom(); });
+
+// Scroll progress bar
+const bar = document.getElementById('progress');
+addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - innerHeight;
+  bar.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + '%';
+}, { passive: true });
+
+// Reveal sections on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
